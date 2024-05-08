@@ -1,0 +1,11 @@
+[{ 
+    "_id": { "$oid" : "628fadb4d370987ac789c0cd" }, 
+    "pokemon": "nice", 
+    "awesome": { 
+        "test": "test1", 
+        "one": "test2" ,
+        "two": {
+            "three": "test3"
+        }
+    } 
+}]

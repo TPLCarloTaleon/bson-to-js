@@ -1,0 +1,4 @@
+{
+    "_id": { "$oid" : "628fadb4d370987ac789c0cd" },
+    "awesome": { "$numberInt": "1" }
+}

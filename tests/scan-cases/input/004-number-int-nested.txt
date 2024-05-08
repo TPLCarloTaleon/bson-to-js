@@ -1,0 +1,16 @@
+
+[{
+    "test": {
+        "$numberInt": "1"
+    },
+    "test2": {
+        "$numberInt": "2"
+    },
+    "test3": {
+        "test4": {
+            "test5": {
+                "$numberInt": "3"
+            }
+        }
+    }
+}]

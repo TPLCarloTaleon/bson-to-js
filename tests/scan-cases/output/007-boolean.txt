@@ -1,0 +1,4 @@
+{
+  forTrial: false,
+  awesome: true
+}

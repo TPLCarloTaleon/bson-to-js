@@ -1,0 +1,9 @@
+
+[{
+    "test": {
+        "$numberInt": "1"
+    },
+    "test2": {
+        "$numberInt": "2"
+    }
+}]
