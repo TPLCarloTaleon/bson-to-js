@@ -1,6 +1,7 @@
 import { scan } from "./src/scan";
 
 const inputPath = "./bson-input.txt";
+const outputPath = "./bson-output.txt";
 
 async function main() {
   const inputFile = Bun.file(inputPath);
@@ -17,19 +18,26 @@ async function main() {
 
   splittedInputContent = splittedInputContent.map((input) => input.trim()).filter((input) => input !== "");
 
-  // const parsedObjects: any[] = [];
-  const parsedOutputs: string[] = [];
-  splittedInputContent.forEach((input) => {
+  // 2. Parse and Write
+  const outputFile = Bun.file(outputPath);
+  await Bun.write(outputPath, ""); // Reset
+
+  const writer = await outputFile.writer();
+
+  splittedInputContent.forEach((input, index) => {
+    // Parse
     const parsedObject = JSON.parse(input);
 
     const output = scan(parsedObject);
-    parsedOutputs.push(output);
-    // parsedObjects.push(parsedObject);
+
+    // Write
+    writer.write(output);
+
+    // If not last item, separate with a // BREAK
+    if (index !== splittedInputContent.length - 1) writer.write("\n\n// BREAK\n\n");
   });
 
-  console.log(parsedOutputs.at(0));
-
-  console.log("\n\n🙌 Done Writing.");
+  console.log(`\n\n🙌 Done Writing to ${outputPath}.`);
 }
 
 main();
