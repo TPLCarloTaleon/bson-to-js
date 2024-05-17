@@ -4,7 +4,7 @@ export function scan(obj: { [key: string]: any }, depth: number = 0): string {
 
   if (!(obj instanceof Object)) throw Error(`${obj} is not an object.`);
 
-  const rootIsObject = depth === 0 && typeof obj === "object" && !Array.isArray(obj) && obj !== null;
+  const rootIsObject = typeof obj === "object" && !Array.isArray(obj) && obj !== null;
   // Handle if Root object.
   if (rootIsObject) {
     // Root is an object
@@ -67,7 +67,40 @@ export function scan(obj: { [key: string]: any }, depth: number = 0): string {
         continue;
       }
 
-      // (identifier key) or (0) Beginning (an array)
+      // Parse number only.
+      if (typeof obj[k] === "number") {
+        output += `${k}: ${obj[k]}`;
+        if (!isLast) output += ",";
+        output += "\n";
+        continue;
+      }
+
+      // Parse array
+      if (Array.isArray(obj[k])) {
+        output += `${k}: [\n`;
+        for (let i = 0; i < obj[k].length; i++) {
+          const isLastInArray = i === obj[k].length - 1;
+          output += "  ".repeat(depth + 1);
+          if (typeof obj[k][i] === "object") {
+            output += `${scan(obj[k][i], depth + 1)}`;
+          } else if (typeof obj[k][i] === "number") {
+            output += `${obj[k][i]}`;
+          } else {
+            output += `"${obj[k][i]}"`;
+          }
+
+          if (!isLastInArray) output += ",";
+
+          // if (i !== obj[k].length - 1)
+          output += "\n";
+        }
+        output += "  ".repeat(depth) + "]";
+        if (!isLast) output += ",";
+        output += "\n";
+        continue;
+      }
+
+      // (identifier key) or (0) Beginning (an object)
       if (!isNaN(parseInt(k))) {
         output += `[`;
       } else {
@@ -75,9 +108,9 @@ export function scan(obj: { [key: string]: any }, depth: number = 0): string {
       }
 
       if (obj[k] instanceof Object) {
-        output += "{\n";
+        // output += "{\n";
         output += scan(obj[k], depth + 1);
-        output += "  ".repeat(depth) + "}";
+        // output += "  ".repeat(depth) + "}";
       } else {
         output += `"${obj[k]}"`;
       }
@@ -93,7 +126,8 @@ export function scan(obj: { [key: string]: any }, depth: number = 0): string {
   // Handle if Root object.
   if (rootIsObject) {
     // Root is an object
-    output += "}";
+    output += "  ".repeat(depth) + "}";
+    // output += "}";
   }
 
   return output;

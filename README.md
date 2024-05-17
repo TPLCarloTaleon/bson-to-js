@@ -10,10 +10,10 @@ TODOS:
 - [x] Test cases
 - [x] $oid parsing
 - [x] $numberInt parsing
-- [ ] $numberFloat and etc. parsing
-- [ ] $date parsing ?
-- [ ] $date parsing
-- [ ] Receive bulk inputs
+- [x] $numberFloat and etc. parsing
+- [x] $date parsing ?
+- [x] $date parsing
+- [x] Receive bulk inputs
 
 ## Getting Started
 
